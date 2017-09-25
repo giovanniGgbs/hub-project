@@ -1,11 +1,10 @@
 package br.com.hub.project.dto;
 
-import java.util.List;
-
 public class ContaFilial extends Conta{
 	
 	private Conta contaPai;
-	private List<Conta> contasFilhas;
+	
+	private ContaFilial contaFilha;
 
 	/**
 	 * @return the contaPai
@@ -24,15 +23,15 @@ public class ContaFilial extends Conta{
 	/**
 	 * @return the contasFilhas
 	 */
-	public List<Conta> getContasFilhas() {
-		return contasFilhas;
+	public ContaFilial getContasFilhas() {
+		return contaFilha;
 	}
 
 	/**
 	 * @param contasFilhas the contasFilhas to set
 	 */
-	public void setContasFilhas(List<Conta> contasFilhas) {
-		this.contasFilhas = contasFilhas;
+	public void setContasFilhas(ContaFilial contaFilha) {
+		this.contaFilha = contaFilha;
 	}
 	
 	
