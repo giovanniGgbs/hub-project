@@ -4,8 +4,21 @@ import java.util.Date;
 
 public abstract class Conta {
 
+	/**
+	 * @return the pessoa
+	 */
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+	/**
+	 * @param pessoa the pessoa to set
+	 */
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
 	private String nome;
 	private Date dataCriacao;
+	private Pessoa pessoa;
 	
 	
 	/**
