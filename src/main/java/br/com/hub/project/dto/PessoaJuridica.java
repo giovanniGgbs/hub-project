@@ -4,31 +4,31 @@ import java.util.Date;
 
 public class PessoaJuridica extends Pessoa {
 	
-	private Integer cpf;
-	private Integer nomeCompleto;
+	private String cpf;
+	private String nomeCompleto;
 	private Date dataNascimento;
 	/**
 	 * @return the cpf
 	 */
-	public Integer getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 	/**
 	 * @param cpf the cpf to set
 	 */
-	public void setCpf(Integer cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 	/**
 	 * @return the nomeCompleto
 	 */
-	public Integer getNomeCompleto() {
+	public String getNomeCompleto() {
 		return nomeCompleto;
 	}
 	/**
 	 * @param nomeCompleto the nomeCompleto to set
 	 */
-	public void setNomeCompleto(Integer nomeCompleto) {
+	public void setNomeCompleto(String nomeCompleto) {
 		this.nomeCompleto = nomeCompleto;
 	}
 	/**

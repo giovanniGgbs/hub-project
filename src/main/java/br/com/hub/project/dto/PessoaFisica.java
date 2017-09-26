@@ -2,7 +2,7 @@ package br.com.hub.project.dto;
 
 public class PessoaFisica extends Pessoa {
 	
-	private Integer cnpj;
+	private String cnpj;
 	private String razaoSocial;
 	private String nomeFantasia;
 	
@@ -10,13 +10,13 @@ public class PessoaFisica extends Pessoa {
 	/**
 	 * @return the cnpj
 	 */
-	public Integer getCnpj() {
+	public String getCnpj() {
 		return cnpj;
 	}
 	/**
 	 * @param cnpj the cnpj to set
 	 */
-	public void setCnpj(Integer cnpj) {
+	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
 	/**
