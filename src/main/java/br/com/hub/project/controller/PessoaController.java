@@ -19,7 +19,6 @@ public class PessoaController {
 	public Pessoa create() {
 		
 		Pessoa p = new PessoaFisica();
-		p.setNome("Felipe");
 	
 		return p;
 	}
