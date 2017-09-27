@@ -2,10 +2,8 @@ package br.com.hub.project.entity;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "pessoa_juridica")
 @DiscriminatorValue("PJ")
 public class PessoaJuridica extends Pessoa {
 

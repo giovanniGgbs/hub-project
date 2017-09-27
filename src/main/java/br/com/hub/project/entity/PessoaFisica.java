@@ -4,10 +4,8 @@ import java.util.Date;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "pessoa_fisica")
 @DiscriminatorValue("PF")
 public class PessoaFisica extends Pessoa {
 

@@ -1,26 +1,49 @@
 package br.com.hub.project.controller;
 
-import javax.ws.rs.Produces;
 
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.hub.project.entity.Pessoa;
+import br.com.hub.project.dao.PessoaDAO;
+import br.com.hub.project.dao.impl.PessoaDAOImpl;
 import br.com.hub.project.entity.PessoaFisica;
 
-
-@RestController
-@RequestMapping(value = "/pessoa")
+/**
+ * Class UserController
+ */
+@Controller
 public class PessoaController {
-	
-	@Produces("application/json; charset=UTF-8")
-	@RequestMapping(value = "/fisica", method = RequestMethod.GET)
-	public Pessoa create() {
-		
-		Pessoa p = new PessoaFisica();
-	
-		return p;
+
+
+	// Wire the UserDao used inside this controller.
+	@Autowired
+	private PessoaDAO pessoaDAO;
+
+	/**
+	 * Create a new user with an auto-generated id and email and name as passed
+	 * values.
+	 */
+	@RequestMapping(value = "/fisica")
+	@ResponseBody
+	public String create() {
+		pessoaDAO = new PessoaDAOImpl();
+		try {
+			PessoaFisica p = new PessoaFisica();
+			
+			p.setNome("Teste");
+			p.setDtNascimento(new Date());
+			p.setCpf("422.165.988-28");
+			
+			pessoaDAO.create(p);
+			
+		} catch (Exception ex) {
+			return "Error creating the user: " + ex.toString();
+		}
+		return "Person succesfully created!";
 	}
-	
-}
+
+} 
