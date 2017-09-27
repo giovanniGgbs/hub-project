@@ -1,5 +1,4 @@
-package br.com.hub.project.controller;
-
+package fintech.controllers;
 
 import java.util.Date;
 
@@ -8,16 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.hub.project.dao.PessoaDAO;
-import br.com.hub.project.dao.impl.PessoaDAOImpl;
-import br.com.hub.project.entity.PessoaFisica;
+import fintech.dao.PessoaDAO;
+import fintech.models.PessoaFisica;
 
 /**
  * Class UserController
  */
-@Controller
+@Controller()
 public class PessoaController {
-
 
 	// Wire the UserDao used inside this controller.
 	@Autowired
@@ -30,7 +27,6 @@ public class PessoaController {
 	@RequestMapping(value = "/fisica")
 	@ResponseBody
 	public String create() {
-		pessoaDAO = new PessoaDAOImpl();
 		try {
 			PessoaFisica p = new PessoaFisica();
 			
@@ -39,11 +35,10 @@ public class PessoaController {
 			p.setCpf("422.165.988-28");
 			
 			pessoaDAO.create(p);
-			
 		} catch (Exception ex) {
-			return "Error creating the user: " + ex.toString();
+			return "Error creating the person: " + ex.toString();
 		}
 		return "Person succesfully created!";
 	}
 
-} 
+}

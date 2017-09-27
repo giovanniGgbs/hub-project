@@ -1,4 +1,4 @@
-package br.com.hub.project.config;
+package fintech.configs;
 
 import java.util.Properties;
 
@@ -51,7 +51,8 @@ public class DatabaseConfig {
     entityManagerFactory.setDataSource(dataSource);
     
     // Classpath scanning of @Component, @Service, etc annotated class
-    entityManagerFactory.setPackagesToScan("br.com.hub.project");
+    entityManagerFactory.setPackagesToScan(
+        env.getProperty("entitymanager.packagesToScan"));
     
     // Vendor adapter
     HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();

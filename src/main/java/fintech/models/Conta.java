@@ -1,4 +1,4 @@
-package br.com.hub.project.entity;
+package fintech.models;
 
 import java.io.Serializable;
 import java.util.Date;

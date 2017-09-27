@@ -1,4 +1,4 @@
-package br.com.hub.project.entity;
+package fintech.models;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
