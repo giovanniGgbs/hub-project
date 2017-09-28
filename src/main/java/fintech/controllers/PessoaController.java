@@ -16,7 +16,7 @@ import fintech.models.PessoaFisica;
 @Controller()
 public class PessoaController {
 
-	// Wire the UserDao used inside this controller.
+	// Wire the PessoaDAO used inside this controller.
 	@Autowired
 	private PessoaDAO pessoaDAO;
 
