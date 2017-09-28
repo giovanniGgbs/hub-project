@@ -1,7 +1,7 @@
-package fintech.enuns;
+package fintech.models;
 
-public enum StatusConta {
-
+public enum SituacaoConta {
+	
 	ATIVA(0, "Ativa"), 
 	BLOQUEADA(1, "Bloqueada"), 
 	CANCELADA(2, "Cancelada");
@@ -9,7 +9,7 @@ public enum StatusConta {
 	private final int codigo;
 	private final String descricao;
 	
-	private StatusConta(int codigo, String descricao) {
+	private SituacaoConta(int codigo, String descricao) {
 		this.codigo = codigo;
 		this.descricao = descricao;
 	}

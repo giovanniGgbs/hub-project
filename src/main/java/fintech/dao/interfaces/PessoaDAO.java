@@ -5,9 +5,11 @@ import java.util.List;
 import fintech.models.Pessoa;
 
 public interface PessoaDAO {
-	public void create(Pessoa pessoa);
-	public void delete(String nome);
-	public List<Pessoa> getAll();
-	public Pessoa getByName(String nome);
-	public void update(Pessoa pessoa);
+	public void criar(Pessoa pessoa) throws Exception;
+	public void remover(String nome) throws Exception;
+	public List<Pessoa> getAll() throws Exception;
+	public Pessoa getByName(String nome) throws Exception;
+	public Pessoa getById(Long id) throws Exception;
+	public void update(Pessoa pessoa) throws Exception;
+	public List<Pessoa> getAllJuridica() throws Exception;
 }

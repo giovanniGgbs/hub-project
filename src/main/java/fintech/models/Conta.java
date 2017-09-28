@@ -5,15 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -22,19 +19,10 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import fintech.enuns.StatusConta;
-
 @Entity
-@DiscriminatorColumn(name = "tipo_conta")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Conta implements Serializable{
+public class Conta implements Serializable {
 	
-
 	private static final long serialVersionUID = -7020252212879848423L;
-	
-	public Conta() {
-		this.situacao = StatusConta.ATIVA;
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,10 +34,15 @@ public class Conta implements Serializable{
 	@NotNull(message = "Data de criação obrigatória")
 	private Date dataCriacao;
 	
+	private Double saldo;
+	
 	@NotNull(message = "A conta deve ter vinculo com pessoa")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)	
 	private Pessoa pessoa;
 
+	@Enumerated
+	private SituacaoConta situacao;
+	
 	@OneToMany(cascade = CascadeType.REMOVE)
 	@JoinTable( name = "contapai_contafilhas", 
 				joinColumns = @JoinColumn( name = "fk_id_conta_pai" ), 
@@ -57,10 +50,11 @@ public class Conta implements Serializable{
 	)
 	private List<Conta> contasFilhas;
 	
-	@Enumerated
-	private StatusConta situacao;
-	
-	
+	public Conta() {
+		this.situacao = SituacaoConta.ATIVA;
+		this.saldo = 0.0;
+		
+	}
 	
 	/**
 	 * @return the id
@@ -142,8 +136,25 @@ public class Conta implements Serializable{
 	}
 
 
+	public SituacaoConta getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(SituacaoConta situacao) {
+		this.situacao = situacao;
+	}
+
+	public Double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(Double saldo) {
+		this.saldo = saldo;
+	}
+
 	@Override
 	public String toString() {
 		return nome;
 	}
+
 }

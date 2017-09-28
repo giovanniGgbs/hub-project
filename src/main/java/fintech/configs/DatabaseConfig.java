@@ -15,16 +15,18 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-/**
- * Contains database configurations.
- */
 @Configuration
 @EnableTransactionManagement
 public class DatabaseConfig {
 
-  // ------------------------
-  // PUBLIC METHODS
-  // ------------------------
+	@Autowired
+	private Environment env;
+	
+	@Autowired
+	private DataSource dataSource;
+	
+	@Autowired
+	private LocalContainerEntityManagerFactoryBean entityManagerFactory;
 
   /**
    * DataSource definition for database connection. Settings are read from
@@ -99,18 +101,5 @@ public class DatabaseConfig {
   }
 
 
-  // ------------------------
-  // PRIVATE FIELDS
-  // ------------------------
-  
-  @Autowired
-  private Environment env;
 
-  @Autowired
-  private DataSource dataSource;
-
-  @Autowired
-  private LocalContainerEntityManagerFactoryBean entityManagerFactory;
-
-
-} // class DatabaseConfig
+} 
