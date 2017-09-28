@@ -42,4 +42,11 @@ public class PessoaJuridica extends Pessoa {
 		this.razaoSocial = razaoSocial;
 	}
 
+	@Override
+	public String toString() {
+		return "PessoaJuridica [cnpj=" + cnpj + ", razaoSocial=" + razaoSocial + "]";
+	}
+	
+	
+
 }

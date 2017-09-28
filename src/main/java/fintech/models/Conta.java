@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import fintech.enuns.StatusConta;
+
 @Entity
 @DiscriminatorColumn(name = "tipo_conta")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -28,6 +31,10 @@ public class Conta implements Serializable{
 	
 
 	private static final long serialVersionUID = -7020252212879848423L;
+	
+	public Conta() {
+		this.situacao = StatusConta.ATIVA;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,25 +57,11 @@ public class Conta implements Serializable{
 	)
 	private List<Conta> contasFilhas;
 	
+	@Enumerated
+	private StatusConta situacao;
 	
-	private String status;
 	
-	/**
-	 * @return the status
-	 */
-	public String getStatus() {
-		return status;
-	}
-
-
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-
+	
 	/**
 	 * @return the id
 	 */

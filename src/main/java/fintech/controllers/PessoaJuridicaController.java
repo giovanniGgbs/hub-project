@@ -1,44 +1,40 @@
 package fintech.controllers;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import fintech.dao.PessoaDAO;
-import fintech.models.PessoaFisica;
+import fintech.dao.interfaces.PessoaDAO;
+import fintech.models.PessoaJuridica;
 
-/**
- * Class UserController
- */
 @Controller()
-public class PessoaController {
+@RequestMapping("/pessoa")
+public class PessoaJuridicaController {
 
 	// Wire the PessoaDAO used inside this controller.
 	@Autowired
 	private PessoaDAO pessoaDAO;
 
-	/**
-	 * Create a new user with an auto-generated id and email and name as passed
-	 * values.
-	 */
-	@RequestMapping(value = "/fisica")
+	@RequestMapping(value = "/juridica")
 	@ResponseBody
-	public String create() {
+	public String create(
+			@RequestParam(value = "razaoSocial")String razaoSocial,
+			@RequestParam(value = "cnpj") String cnpj) {
 		try {
-			PessoaFisica p = new PessoaFisica();
+			PessoaJuridica pj = new PessoaJuridica();
 			
-			p.setNome("Teste");
-			p.setDtNascimento(new Date());
-			p.setCpf("422.165.988-28");
+			pj.setRazaoSocial(razaoSocial);
+			pj.setCnpj(cnpj);
 			
-			pessoaDAO.create(p);
+			pessoaDAO.create(pj);
+			
 		} catch (Exception ex) {
 			return "Error creating the person: " + ex.toString();
 		}
 		return "Person succesfully created!";
 	}
+	
 
 }

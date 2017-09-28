@@ -1,4 +1,4 @@
-package fintech.dao;
+package fintech.dao.impl;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
+import fintech.dao.interfaces.PessoaDAO;
 import fintech.models.Pessoa;
 
 /**
@@ -21,7 +22,7 @@ import fintech.models.Pessoa;
  */
 @Repository
 @Transactional
-public class PessoaDAO {
+public class PessoaDAOImpl implements PessoaDAO{
 
 	// An EntityManager will be automatically injected from entityManagerFactory
 	// setup on DatabaseConfig class.
@@ -39,7 +40,10 @@ public class PessoaDAO {
 	/**
 	 * Delete the user from the database.
 	 */
-	public void delete(Pessoa pessoa) {
+	public void delete(String nome) {
+		
+		Pessoa pessoa = getByName(nome);
+		
 		if (entityManager.contains(pessoa))
 			entityManager.remove(pessoa);
 		else
@@ -58,7 +62,7 @@ public class PessoaDAO {
 	/**
 	 * Return the user having the passed email.
 	 */
-	public Pessoa getByEmail(String nome) {
+	public Pessoa getByName(String nome) {
 		return (Pessoa) entityManager.createQuery("from Pessoa where nome = :nome").setParameter("nome", nome)
 				.getSingleResult();
 	}
@@ -74,7 +78,13 @@ public class PessoaDAO {
 	 * Update the passed user in the database.
 	 */
 	public void update(Pessoa pessoa) {
-		entityManager.merge(pessoa);
+		
+		Pessoa p = getByName(pessoa.getNome());
+		
+		if(entityManager.contains(p)){
+			entityManager.merge(p);
+		}
+		
 		return;
 	}
 

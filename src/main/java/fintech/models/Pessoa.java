@@ -53,7 +53,8 @@ public abstract class Pessoa implements Serializable{
 
 	@Override
 	public String toString() {
-		return nome;
+		return "Pessoa [id=" + id + ", nome=" + nome + "]";
 	}
 
+	
 }

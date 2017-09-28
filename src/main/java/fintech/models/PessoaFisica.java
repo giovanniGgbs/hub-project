@@ -43,4 +43,10 @@ public class PessoaFisica extends Pessoa {
 		this.dtNascimento = dtNascimento;
 	}
 
+	@Override
+	public String toString() {
+		return "PessoaFisica [cpf=" + cpf + ", dtNascimento=" + dtNascimento + "]";
+	}
+	
+
 }
