@@ -1,9 +1,8 @@
-## Use JPA + Hibernate + MySQL in Spring Boot
+## Hub Fintech - Teste para desenvolvedor - Sitema para controle de contas
 
-See here for more informations: 
-http://blog.netgloo.com/2014/10/06/spring-boot-data-access-with-jpa-hibernate-and-mysql/
+- Autor: Giovanni Gonçalves Braga de Sousa
 
-### Usage
+### Uso
 
 - Run the application and go on http://localhost:8080/
 - Use the following urls to invoke controllers methods and see the interactions
@@ -16,22 +15,14 @@ http://blog.netgloo.com/2014/10/06/spring-boot-data-access-with-jpa-hibernate-an
 
 ### Build and run
 
-#### Configurations
+#### Configurações
 
 Open the `application.properties` file and set your own configurations for the
 database connection.
 
-#### Prerequisites
+#### Pré requisitos
 
-- Java 7
-- Maven 3
+- Java 8
+- Maven 3.3.9
+- MySQL Server (J/Connector)
 
-#### From terminal
-
-Go on the project's root folder, then type:
-
-    $ mvn spring-boot:run
-
-#### From Eclipse (Spring Tool Suite)
-
-Import as *Existing Maven Project* and run it as *Spring Boot App*.

@@ -1,32 +1,28 @@
 package fintech.controllers;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.bind.annotation.RestController;
 
 import fintech.dao.interfaces.PessoaDAO;
 import fintech.models.Pessoa;
 import fintech.models.PessoaFisica;
 import fintech.models.PessoaJuridica;
 import fintech.utils.MensagemErro;
-import io.swagger.annotations.Api;
 
-@Controller()
+@RestController
 @RequestMapping("/pessoa")
-@Api(value = "/pessoa", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PessoaController {
 
 	@Autowired
@@ -35,187 +31,152 @@ public class PessoaController {
 	public static final Logger LOG = LoggerFactory.getLogger(PessoaController.class);
 
 	@RequestMapping(value = "/fisica/create", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<?> create(@RequestParam(value = "nome") String nome, @RequestParam(value = "data") String data,
-			@RequestParam(value = "cpf") String cpf) {
+	public ResponseEntity<?> create(@RequestBody PessoaFisica pessoa) {
 		try {
 			
-			PessoaFisica pf = new PessoaFisica();
-
-			pf.setNome(nome);
-
-			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-			Date strToDate = format.parse(data);
-
-			pf.setDtNascimento(strToDate);
-			pf.setCpf(cpf);
-			
-			LOG.info("Criando pessoa física : {}", pf);
-			pessoaDAO.criar(pf);
+			LOG.info("Criando pessoa física : {}", pessoa);
+			pessoaDAO.criar(pessoa);
 
 		} catch (Exception ex) {
-			LOG.error("Ocorreu um erro na crição de uma pessoa física: " + ex.getMessage());
+			LOG.error("Ocorreu um erro na criação de uma pessoa física: " + ex.getMessage());
 			return new ResponseEntity<>(new MensagemErro("Ocorreu um erro ao realizar o cadastro da pessoa física!"), HttpStatus.OK);
 		}
 		return new ResponseEntity<>(new MensagemErro("Cadastro de pessoa física realizado com sucesso!"), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/fisica/update")
-	@ResponseBody
-	public String update(@RequestParam(value = "nome") String nome, @RequestParam(value = "data") String data,
-			@RequestParam(value = "cpf") String cpf) {
+	@RequestMapping(value = "/fisica/update", method = RequestMethod.PUT)
+	public ResponseEntity<?> update(@RequestBody PessoaFisica pessoa) {
 		try {
-			PessoaFisica pf = new PessoaFisica();
-
-			pf.setNome(nome);
-
-			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-			Date strToDate = format.parse(data);
-
-			pf.setDtNascimento(strToDate);
-			pf.setCpf(cpf);
-
-			pessoaDAO.update(pf);
+			LOG.info("Atualizando pessoa física : {}", pessoa);
+			pessoaDAO.update(pessoa);
 
 		} catch (Exception ex) {
-			return "Error creating the person: " + ex.toString();
+			LOG.error("Ocorreu um erro na atualização de uma pessoa física: " + ex.getMessage());
+			return new ResponseEntity<>(new MensagemErro("Ocorreu um erro ao realizar a atualização da pessoa física!"), HttpStatus.OK);
 		}
-		return "Person succesfully created!";
+		return new ResponseEntity<>(new MensagemErro("Atualização de pessoa física realizada com sucesso!"), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/fisica/find/by/name")
+	@RequestMapping(value = "/fisica/find/by/name", method = RequestMethod.GET)
 	@ResponseBody
-	public String findByName(@RequestParam(value = "nome")String nome){
+	public ResponseEntity<?> findByName(@RequestParam(value = "nome")String nome){
 		
 		PessoaFisica pf;
 		
 		try {
-
+			LOG.info("Procurando pessoa física : {}", nome);
 			pf = (PessoaFisica) pessoaDAO.getByName(nome);
 			
 		} catch (Exception ex) {
-			return "Error finding the person: " + ex.toString();
+			LOG.error("Ocorreu um erro na busca de uma pessoa física: " + ex.getMessage());
+			return new ResponseEntity<>(new MensagemErro("Ocorreu um erro ao realizar a busca da pessoa física!"), HttpStatus.OK);
 		}
-		return "Person succesfully founded! \n" + pf;
+		return new ResponseEntity<>(pf, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/fisica/find")
+	@RequestMapping(value = "/fisica/find", method = RequestMethod.GET)
 	@ResponseBody
-	public String findAll(){
+	public ResponseEntity<?> findAll(){
 		
-		List<Pessoa> pessoas;
-		
+		List<Pessoa> pessoas = new ArrayList<Pessoa>();
 		try {
-
+			LOG.info("Procurando todas as pessoas físicas : {}", pessoas);
 			pessoas = pessoaDAO.getAll();
 			
 		} catch (Exception ex) {
-			return "Error finding the person: " + ex.toString();
+			LOG.error("Ocorreu um erro na busca de todas as pessoas física: " + ex.getMessage());
+			return new ResponseEntity<>(new MensagemErro("Ocorreu um erro ao realizar a busca de todas as pessoas físicas!"), HttpStatus.OK);
 		}
-		return "Person succesfully founded! \n" + pessoas;
+		return new ResponseEntity<>(pessoas, HttpStatus.OK);
 	}
 	
 
-	@RequestMapping(value = "/fisica/remove")
-	@ResponseBody
-	public String remove(String nome){
+	@RequestMapping(value = "/fisica/remove", method = RequestMethod.DELETE)
+	public ResponseEntity<?> remove(@RequestParam(value="nome") String nome){
 		
 		try {
+			LOG.info("Removendo pessoa física : {}", nome);
 			pessoaDAO.remover(nome);
 			
 		} catch (Exception ex) {
-			return "Error deleting the person: " + ex.toString();
+			LOG.error("Ocorreu um erro ao remover a pessoa física: " + ex.getMessage());
+			return new ResponseEntity<>(new MensagemErro("Ocorreu um erro ao remover a pessoa física!"), HttpStatus.OK);
 		}
-		return "Person succesfully deleted!";
+		return new ResponseEntity<>(new MensagemErro("Remoção de pessoa física realizada com sucesso!"), HttpStatus.OK);
 	}
 	
 
-	@RequestMapping(value = "/juridica/create")
-	@ResponseBody
-	public String createJuridica(
-			@RequestParam(value = "razaoSocial")String razaoSocial,
-			@RequestParam(value = "cnpj") String cnpj) {
+	@RequestMapping(value = "/juridica/create", method = RequestMethod.POST)
+	public ResponseEntity<?> createJuridica(@RequestBody PessoaJuridica pessoa) {
 		try {
-			PessoaJuridica pj = new PessoaJuridica();
 			
-			pj.setRazaoSocial(razaoSocial);
-			pj.setCnpj(cnpj);
-			
-			pessoaDAO.criar(pj);
-			
-		} catch (Exception ex) {
-			return "Error creating the person: " + ex.toString();
-		}
-		return "Person succesfully created!";
-	}
-	
-	@RequestMapping(value = "/juridica/update")
-	@ResponseBody
-	public String updateJuridica(@RequestParam(value = "nome") String nome, @RequestParam(value = "data") String data,
-			@RequestParam(value = "cpf") String cpf) {
-		try {
-			PessoaFisica pf = new PessoaFisica();
-
-			pf.setNome(nome);
-
-			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-			Date strToDate = format.parse(data);
-
-			pf.setDtNascimento(strToDate);
-			pf.setCpf(cpf);
-
-			pessoaDAO.update(pf);
+			LOG.info("Criando pessoa juridica : {}", pessoa);
+			pessoaDAO.criar(pessoa);
 
 		} catch (Exception ex) {
-			return "Error creating the person: " + ex.toString();
+			LOG.error("Ocorreu um erro na criação de uma pessoa juridica: " + ex.getMessage());
+			return new ResponseEntity<>(new MensagemErro("Ocorreu um erro ao realizar o cadastro da pessoa juridica!"), HttpStatus.OK);
 		}
-		return "Person succesfully created!";
+		return new ResponseEntity<>(new MensagemErro("Cadastro de pessoa juridica realizada com sucesso!"), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/juridica/find/by/name")
+	@RequestMapping(value = "/juridica/update", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateJuridica(@RequestBody PessoaJuridica pessoa) {
+		try {
+			LOG.info("Atualizando pessoa juridica : {}", pessoa);
+			pessoaDAO.update(pessoa);
+
+		} catch (Exception ex) {
+			LOG.error("Ocorreu um erro na atualização de uma pessoa juridica: " + ex.getMessage());
+			return new ResponseEntity<>(new MensagemErro("Ocorreu um erro ao realizar a atualização da pessoa juridica!"), HttpStatus.OK);
+		}
+		return new ResponseEntity<>(new MensagemErro("Atualização de pessoa física realizada com sucesso!"), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/juridica/find/by/name", method = RequestMethod.GET)
 	@ResponseBody
-	public String findJuridicaByName(@RequestParam(value = "nome")String nome){
+	public ResponseEntity<?> findJuridicaByName(@RequestParam(value = "nome")String nome){
 		
-		PessoaFisica pf;
+		PessoaJuridica pf;
 		
 		try {
-
-			pf = (PessoaFisica) pessoaDAO.getByName(nome);
+			LOG.info("Procurando pessoa juridica : {}", nome);
+			pf = (PessoaJuridica) pessoaDAO.getByName(nome);
 			
 		} catch (Exception ex) {
-			return "Error finding the person: " + ex.toString();
+			LOG.error("Ocorreu um erro na busca de uma pessoa juridica: " + ex.getMessage());
+			return new ResponseEntity<>(new MensagemErro("Ocorreu um erro ao realizar a busca da pessoa juridica!"), HttpStatus.OK);
 		}
-		return "Person succesfully founded! \n" + pf;
+		return new ResponseEntity<>(pf, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/juridica/find")
+	@RequestMapping(value = "/juridica/find", method = RequestMethod.GET)
 	@ResponseBody
-	public String findAllJuridica(){
-		
-		List<Pessoa> pessoas;
-		
+	public ResponseEntity<?> findAllJuridica(){
+		List<Pessoa> pessoas = new ArrayList<Pessoa>();
 		try {
-
-			pessoas = pessoaDAO.getAllJuridica();
+			LOG.info("Procurando todas as pessoas físicas : {}", pessoas);
+			pessoas = pessoaDAO.getAll();
 			
 		} catch (Exception ex) {
-			return "Error finding the person: " + ex.toString();
+			LOG.error("Ocorreu um erro na busca de todas as pessoas juridicas: " + ex.getMessage());
+			return new ResponseEntity<>(new MensagemErro("Ocorreu um erro ao realizar a busca de todas as pessoas físicas!"), HttpStatus.OK);
 		}
-		return "Person succesfully founded! \n" + pessoas;
+		return new ResponseEntity<>(pessoas, HttpStatus.OK);
 	}
-	
 
-	@RequestMapping(value = "/juridica/remove")
-	@ResponseBody
-	public String removeJuridica(String nome){
+	@RequestMapping(value = "/juridica/remove", method = RequestMethod.DELETE)
+	public ResponseEntity<?> removeJuridica(@RequestParam(value="nome") String nome){
 		
 		try {
+			LOG.info("Removendo pessoa juridica : {}", nome);
 			pessoaDAO.remover(nome);
 			
 		} catch (Exception ex) {
-			return "Error deleting the person: " + ex.toString();
+			LOG.error("Ocorreu um erro ao remover a pessoa física: " + ex.getMessage());
+			return new ResponseEntity<>(new MensagemErro("Ocorreu um erro ao remover a pessoa juridica!"), HttpStatus.OK);
 		}
-		return "Person succesfully deleted!";
+		return new ResponseEntity<>(new MensagemErro("Remoção de pessoa juridica realizada com sucesso!"), HttpStatus.OK);
 	}
 	
 	

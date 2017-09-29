@@ -52,7 +52,7 @@ public class PessoaDAOImpl implements PessoaDAO{
 	public void update(Pessoa pessoa) {
 		
 		Pessoa p = getByName(pessoa.getNome());
-		
+		p = pessoa;
 		if(entityManager.contains(p)){
 			entityManager.merge(p);
 		}

@@ -33,7 +33,7 @@ public class ContaController {
 		try {
 			LOG.info("Criando conta : {}", conta);			
 			contaDAO.criar(conta);			
-			return new ResponseEntity<>(new MensagemErro("Conta criada com sucesso!"), HttpStatus.CREATED);	
+			return new ResponseEntity<>(new MensagemErro("Conta criada com sucesso!"), HttpStatus.OK);	
 		} catch (Exception ex) {
 			LOG.error("Ocorreu um erro na crição de uma conta: " + ex.getMessage());
 			return new ResponseEntity<>(new MensagemErro(ex.getMessage()), HttpStatus.BAD_REQUEST);
