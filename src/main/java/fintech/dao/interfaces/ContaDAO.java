@@ -7,7 +7,7 @@ import fintech.models.Conta;
 public interface ContaDAO {
 
 	public void criar(Conta conta) throws Exception;
-	public void remover(Conta conta) throws Exception;
+	public void remover(Long id) throws Exception;
 	public void update(Conta conta, Long id) throws Exception;
 	public Conta getById(Long id);
 	public List<Conta> listarTodos() ;

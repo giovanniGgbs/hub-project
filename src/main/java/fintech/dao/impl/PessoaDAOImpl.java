@@ -4,9 +4,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import fintech.dao.interfaces.PessoaDAO;
 import fintech.models.Pessoa;
@@ -19,9 +19,8 @@ public class PessoaDAOImpl implements PessoaDAO{
 	private EntityManager entityManager;
 	
 	@Transactional
-	public void criar(Pessoa pessoa) {
+	public void criar(Pessoa pessoa) {			
 		entityManager.persist(pessoa);
-		return;
 	}
 	
 	@Transactional

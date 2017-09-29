@@ -35,7 +35,19 @@ public class ContaController {
 			contaDAO.criar(conta);			
 			return new ResponseEntity<>(new MensagemErro("Conta criada com sucesso!"), HttpStatus.OK);	
 		} catch (Exception ex) {
-			LOG.error("Ocorreu um erro na crição de uma conta: " + ex.getMessage());
+			LOG.error("Ocorreu um erro na criação de uma conta: " + ex.getMessage());
+			return new ResponseEntity<>(new MensagemErro(ex.getMessage()), HttpStatus.BAD_REQUEST);
+		}		
+	}
+	
+	@RequestMapping(value = "/conta/{id}/remover", method = RequestMethod.DELETE)
+	public ResponseEntity<?> remover(@PathVariable(value = "id") Long id) {
+		try {
+			LOG.info("Criando conta : {}", id);			
+			contaDAO.remover(id);		
+			return new ResponseEntity<>(new MensagemErro("Conta criada com sucesso!"), HttpStatus.OK);	
+		} catch (Exception ex) {
+			LOG.error("Ocorreu um erro na criação de uma conta: " + ex.getMessage());
 			return new ResponseEntity<>(new MensagemErro(ex.getMessage()), HttpStatus.BAD_REQUEST);
 		}		
 	}
@@ -64,7 +76,7 @@ public class ContaController {
 		}		
 	}
 	
-	@RequestMapping(value = "/conta/{destino}/transacao/{valor}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/conta/{destino}/aporte/transacao/{valor}", method = RequestMethod.PUT)
 	public ResponseEntity<?> transacaoAporte(@PathVariable(value = "destino")  Long destino, @PathVariable(value = "valor") Double valor) {
 		try {
 			LOG.info("Conta destino: {}", destino);			

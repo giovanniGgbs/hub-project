@@ -19,18 +19,23 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Conta implements Serializable {
 	
 	private static final long serialVersionUID = -7020252212879848423L;
 
+	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	@NotBlank(message = "Nome é obrigatório")
 	private String nome;
-
+	
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@NotNull(message = "Data de criação obrigatória")
 	private Date dataCriacao;
 	
@@ -43,7 +48,7 @@ public class Conta implements Serializable {
 	@Enumerated
 	private SituacaoConta situacao;
 	
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST})
 	@JoinTable( name = "contapai_contafilhas", 
 				joinColumns = @JoinColumn( name = "fk_id_conta_pai" ), 
 				inverseJoinColumns = @JoinColumn( name = "fk_id_conta_filhas" ) 

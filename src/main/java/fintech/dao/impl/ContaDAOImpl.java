@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,15 +59,22 @@ public class ContaDAOImpl implements ContaDAO{
 	}
 	
 	@Transactional
-	public void remover(Conta conta) throws Exception {
+	public void remover(Long id) throws Exception {
 		Conta c = null;
-		try {
-			c = getById(conta.getId());
-			if (c == null){
-				throw new Exception("Conta não encontrada");
-			} else {
+		try {								
+			String sqlVerificaSeTemFilho = "select cf.* from contapai_contafilhas cf where cf.fk_id_conta_filhas = :id OR cf.fk_id_conta_pai = :id";
+			List results = em.createNativeQuery(sqlVerificaSeTemFilho)
+							.setParameter("id", id)
+							.getResultList();
+			if(results.isEmpty()) {
+				c = getById(id);
 				em.remove(c);
+			} else {
+				String sqlRemoveContaFilha = "delete from contapai_contafilhas where fk_id_conta_filhas = :id";								
+				Query q = em.createNativeQuery(sqlRemoveContaFilha);
+				q.setParameter("id", id).executeUpdate();				
 			}
+			
 		} catch (Exception e) {
 			throw new Exception("Não foi possível remover a conta");
 		}
@@ -176,10 +184,7 @@ public class ContaDAOImpl implements ContaDAO{
 	
 	@Transactional(readOnly = true)
 	public Conta getById(Long id){
-		
-		Conta conta = (Conta)  em.createQuery("SELECT c FROM Conta c WHERE c.id = :id")
-				.setParameter("id", id).getSingleResult();
-		
+		Conta conta = em.find(Conta.class, id);		
 		return conta;
 	}
 
